@@ -1,0 +1,11 @@
+ 
+# Virtual Filesystem
+Low-level storage devices, such as hard drives, are presented to the operating system as an array of fixed-size blocks of data. Filesystems are (usually) parts of the operating system that present an abstraction of this raw data. It is the filesystem’s job to internally organise these blocks, and present a consistent interface of “files” (and directories) to user programs, via system calls (such as read(), write(), open()).
+
+Real filesystems utilise storage devices as mentioned - such as a hard drive, or solid state drive, accessed over a variety of interfaces such as USB. For this assignment, your virtual filesystem will use 3 real files as a simulated storage device, and store the data of your “virtual files” in these.
+
+The file_data file contains the contents of all virtual files stored. Files will be stored as a contigu- ous series of bytes starting at various offsets in the file_data file. Note that file_data contains only the contents of your virtual files and not their filenames. The file_data file consists of 2n blocks, each of size 256 bytes. n is a positive integer with maximum value 24. Files do not have to start or end on block boundaries. Files may span multiple blocks or parts of blocks, but are always a contiguous section of bytes. There may be two or more files contained within one block if they are all less than 256 bytes in size.
+
+The directory_table file maps filenames to where the corresponding virtual file is stored in file_data. It consists of a series of 72 byte records. Each record first contains a 64 byte region for a null terminated string that represents the filename. A filename that starts with the null byte is considered to have been deleted. This is followed by the offset and length fields, both of which are 4 bytes, which are unsigned integer values stored in little-endian format. These represent the position of the first byte of the file from the beginning of file_data in bytes and the length of the file in 16 bytes respectively. The maximum number of records the directory_table file can contain is 2 to the 16th power. The filesystem will not support any directories, links, users, owners, permissions, etc.
+
+The hash_data file contains verification data for virtual filesystem. 
